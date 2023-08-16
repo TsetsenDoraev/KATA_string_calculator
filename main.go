@@ -51,16 +51,25 @@ func main() {
 	var typeOperand_1, typeOperand_2 string
 
 	if operands[0][0] == '"' && operands[0][len(operands[0])-1] == '"' {
-		typeOperand_1 = "str"
-		operands[0] = operands[0][1 : len(operands[0])-1]
+		if len(operands[0]) < 11 {
+			typeOperand_2 = "str"
+		} else {
+			fmt.Println("Длинна строки не более 10 символов, проблема в первом операнде")
+			return
+		}
 		//fmt.Printf("Тип первой переменной: %T\n", operands[0])
 	} else {
 		fmt.Println("Первый операнд может быть только строкой, используйте кавычки")
 	}
 
 	if operands[1][0] == '"' && operands[1][len(operands[1])-1] == '"' {
-		typeOperand_2 = "str"
 		operands[1] = operands[1][1 : len(operands[1])-1]
+		if len(operands[1]) < 11 {
+			typeOperand_2 = "str"
+		} else {
+			fmt.Println("Длинна строки не более 10 символов, проблема в втором операнде")
+			return
+		}
 		//fmt.Printf("Тип второй переменной: %T\n", operands[1])
 
 	} else if matched, _ := regexp.MatchString("\\b([1-9]|10)\\b", operands[1]); matched {
@@ -97,10 +106,20 @@ func main() {
 		switch operator {
 		case " * ":
 			result = StrMultiply(operands[0], operandsInt)
-			fmt.Println("\"" + result + "\"")
+			if len(result) > 40 {
+				result = result[:40]
+				fmt.Println("\"" + result + "..." + "\"")
+			} else {
+				fmt.Println("\"" + result + "\"")
+			}
 		case " / ":
 			result = strIntDivide(operands[0], operandsInt)
-			fmt.Println("\"" + result + "\"")
+			if len(result) > 40 {
+				result = result[:40]
+				fmt.Println("\"" + result + "..." + "\"")
+			} else {
+				fmt.Println("\"" + result + "\"")
+			}
 		default:
 			fmt.Println("Строку и число можно только умножить или разделить")
 		}
@@ -113,6 +132,7 @@ func StrStrPlus(num1, num2 string) string {
 	result := num1 + num2
 	return result
 }
+
 func StrStrMinus(num1, num2 string) string {
 	if !strings.Contains(num1, num2) {
 		return num1
@@ -126,6 +146,7 @@ func StrMultiply(num1 string, num2 int) string {
 	result := strings.Repeat(num1, num2)
 	return result
 }
+
 func strIntDivide(num1 string, num2 int) string {
 	length := len(num1)
 	index := length / num2
