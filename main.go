@@ -51,24 +51,23 @@ func main() {
 	var typeOperand_1, typeOperand_2 string
 
 	if operands[0][0] == '"' && operands[0][len(operands[0])-1] == '"' {
-		if len(operands[0]) < 11 {
-			typeOperand_2 = "str"
+		operands[0] = operands[0][1 : len(operands[0])-1]
+		if len(operands[0]) <= 10 {
+			typeOperand_1 = "str"
 		} else {
-			fmt.Println("Длинна строки не более 10 символов, проблема в первом операнде")
-			return
+			fmt.Println("Строка не более 10 символов в втором операнде")
 		}
 		//fmt.Printf("Тип первой переменной: %T\n", operands[0])
 	} else {
-		fmt.Println("Первый операнд может быть только строкой, используйте кавычки")
+		fmt.Println("Первый операнд может быть только строкой не более 10 символов, используйте кавычки")
 	}
 
 	if operands[1][0] == '"' && operands[1][len(operands[1])-1] == '"' {
 		operands[1] = operands[1][1 : len(operands[1])-1]
-		if len(operands[1]) < 11 {
+		if len(operands[1]) <= 10 {
 			typeOperand_2 = "str"
 		} else {
-			fmt.Println("Длинна строки не более 10 символов, проблема в втором операнде")
-			return
+			fmt.Println("Строка не более 10 символов в втором операнде")
 		}
 		//fmt.Printf("Тип второй переменной: %T\n", operands[1])
 
